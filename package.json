@@ -1,0 +1,10 @@
+{
+  "name": "moql",
+  "version": "1.0.0",
+  "description": "Mock GraphQL server for tests.",
+  "main": "src/index.js",
+  "repository": "https://github.com/eola/moql",
+  "author": "Simon George <simon@sfcgeorge.co.uk>",
+  "license": "MIT",
+  "private": false
+}
