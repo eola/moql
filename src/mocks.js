@@ -39,10 +39,12 @@ let mocks = {}
 //   mocks("query", "variables") // specific mock for the query and variables
 //
 exports.mocks = function(query, variables) {
-  let mock = mocks
-  if (query) mock = mock[normalizeQuery(query)]
-  if (variables && mock) mock = mock[normalizeVariables(variables)]
+  const q = normalizeQuery(query)
+  const v = normalizeVariables(variables)
 
+  let mock = mocks
+  if (query !== undefined) mock = mock[q]
+  if (variables !== undefined && mock) mock = mock[v] || mock[null]
   return mock
 }
 

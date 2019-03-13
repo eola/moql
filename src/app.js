@@ -15,8 +15,7 @@ app.use(bodyParser.json())
 
 // Look up and return the matching query + variables mock.
 app.post('/graphql', (request, response) => {
-  const query = request.body.query
-  const variables = request.body.variables || {}
+  let { query, variables } = request.body
 
   const mockVariables = mocks(query)
   const mock = mockVariables ? mocks(query, variables) : undefined

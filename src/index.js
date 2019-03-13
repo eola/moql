@@ -13,12 +13,12 @@ exports.startMoQL = () =>
   new Promise((resolve, reject) => {
     server = app().listen(port, (err) => {
       if (err) {
-        console.log("📈 MoQL server failed to start.", err)
+        console.log("📈 moQL server failed to start.", err)
         reject()
         return
       }
       resolve()
-      console.log(`📉 MoQL server is listening on ${port}`)
+      console.log(`📉 moQL server is listening on ${port}`)
     })
   })
 
@@ -33,12 +33,12 @@ exports.startMoQL = () =>
 //   }
 //
 exports.moQL = ({ request, response }) => {
-  if (!request.query) throw 'MoQL missing query!'
-  const query = request.query
-  const variables = request.variables || {}
+  let { query, variables } = request
+  if (variables === undefined) variables = {} // strict by default
+  if (!query) throw 'moQL missing query!'
 
   const duplicate = setMock(query, variables)(response)
-  if (duplicate) throw `🙅🙅 Duplicate MoQL query! '${duplicate}'`
+  if (duplicate) throw `🙅🙅 Duplicate moQL query! '${duplicate}'`
 }
 
 // Reset the MoQL mocks to a clean slate. Ideally run this after every spec.

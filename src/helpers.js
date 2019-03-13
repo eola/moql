@@ -17,6 +17,8 @@ exports.normalizeQuery = function(query) {
 //   but it's the same implementation stringifying on insert and read,
 //   so should be deterministically the same each time.
 exports.normalizeVariables = function(variables) {
+  if (variables === undefined || variables === null) return null
+
   const ordered = {}
   Object.keys(variables).sort().forEach(key => ordered[key] = variables[key])
   return JSON.stringify(ordered)
