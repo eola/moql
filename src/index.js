@@ -9,21 +9,18 @@ const port = 7332 // LEE2
 //
 //   beforeAll(startMoQL)
 //
-exports.startMoQL = function() {
-  return(
-    new Promise((resolve, reject) => {
-      server = app().listen(port, (err) => {
-        if (err) {
-          console.log("📈 MoQL server failed to start.", err)
-          reject()
-          return
-        }
-        resolve()
-        console.log(`📉 MoQL server is listening on ${port}`)
-      })
+exports.startMoQL = () =>
+  new Promise((resolve, reject) => {
+    server = app().listen(port, (err) => {
+      if (err) {
+        console.log("📈 MoQL server failed to start.", err)
+        reject()
+        return
+      }
+      resolve()
+      console.log(`📉 MoQL server is listening on ${port}`)
     })
-  )
-}
+  })
 
 // ✨ The main function. Register a mocked GraphQL query with MoQL.
 //
@@ -35,7 +32,7 @@ exports.startMoQL = function() {
 //     data: { ... } // JSON graphql response your client expects
 //   }
 //
-exports.MoQL = function({ request, response }) {
+exports.moQL = ({ request, response }) => {
   if (!request.query) throw 'MoQL missing query!'
   const query = request.query
   const variables = request.variables || {}
@@ -46,9 +43,7 @@ exports.MoQL = function({ request, response }) {
 
 // Reset the MoQL mocks to a clean slate. Ideally run this after every spec.
 // Optional, but you'll get tightly coupled specs and confusing results without.
-exports.resetMoQL = function() {
-  resetMocks()
-}
+exports.resetMoQL = () => resetMocks()
 
 // Verify all mocks specified were used. Ideally run this after every spec.
 // Optional, but useful to ensure specs don't acrue unused mocks.
@@ -59,13 +54,11 @@ exports.resetMoQL = function() {
 //   verifyMoQL.length === 0 // pass
 //
 // Changed my mind it throws now.
-exports.verifyMoQL = function() {
+exports.verifyMoQL = () => {
   const unused = unusedMocks()
   if (unused) throw `😰 MoQL query not used! '${unused}'`
   exports.resetMoQL() // to be helpful
 }
 
 // Stop the MoQL server. Not sure if this is necessary.
-exports.stopMoQL = function() {
-  server.close()
-}
+exports.stopMoQL = () => server.close()

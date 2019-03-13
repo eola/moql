@@ -12,7 +12,10 @@ exports.normalizeQuery = function(query) {
 
 // Normalize vars when mocking & when recieving the request to compare equal.
 // Sorts keys as client may send them in a different order to the mock.
-// Then JSON stringifies as this should be consistent here.
+// Then JSON stringifies;
+//   technically JSON objects are unordered and implementations may differ,
+//   but it's the same implementation stringifying on insert and read,
+//   so should be deterministically the same each time.
 exports.normalizeVariables = function(variables) {
   const ordered = {}
   Object.keys(variables).sort().forEach(key => ordered[key] = variables[key])

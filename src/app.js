@@ -21,8 +21,6 @@ app.post('/graphql', (request, response) => {
   const mockVariables = mocks(query)
   const mock = mockVariables ? mocks(query, variables) : {}
 
-  if (!mock.countUsed) mock.countUsed = 0
-  mock.countUsed += 1
 
   if (!mockVariables) {
     response.send({
@@ -36,13 +34,14 @@ app.post('/graphql', (request, response) => {
         message: `🤔 No MoQL variables mock found! '${variables}'`
       }]
     })
-  } else if (mock.count && mock.countUsed > mock.count) {
+  } else if (mock.count !== null && mock.countUsed >= mock.count) {
     response.send({
       errors: [{
         message: `🔞 MoQL query limit reached! Specified count: ${mock.count}`
       }]
     })
   } else {
+    mock.countUsed += 1
     response.send({ data: mock.data })
   }
 })
