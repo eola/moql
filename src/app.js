@@ -19,31 +19,33 @@ app.post('/graphql', (request, response) => {
   const variables = request.body.variables || {}
 
   const mockVariables = mocks(query)
-  const mock = mockVariables ? mocks(query, variables) : {}
+  const mock = mockVariables ? mocks(query, variables) : undefined
 
-
+  let json
   if (!mockVariables) {
-    response.send({
-      errors: [{
-        message: `🔎 No MoQL query mock found! '${query.slice(0, 30)}...'`
-      }]
-    })
+    const message =
+      `🔎 No moQL query mocks found! '${query.slice(0, 30)}...'`
+    console.log(message)
+    console.log('Queries mocked:')
+    console.log(Object.keys(mocks()).join('\n\n'))
+    json = { errors: [{ message }] }
   } else if (!mock) {
-    response.send({
-      errors: [{
-        message: `🤔 No MoQL variables mock found! '${variables}'`
-      }]
-    })
+    const message =
+      `🤔 No moQL variables mock found! '${JSON.stringify(variables)}'`
+    console.log(message)
+    console.log('Query variables mocked:')
+    console.log(Object.keys(mockVariables).join('\n\n'))
+    json = { errors: [{ message }] }
   } else if (mock.count !== null && mock.countUsed >= mock.count) {
-    response.send({
-      errors: [{
-        message: `🔞 MoQL query limit reached! Specified count: ${mock.count}`
-      }]
-    })
+    const message =
+      `🔞 moQL query limit reached! Specified count: ${mock.count}`
+    console.log(message)
+    json = { errors: [{ message }] }
   } else {
     mock.countUsed += 1
-    response.send({ data: mock.data })
+    json = { data: mock.data }
   }
+  response.send(json)
 })
 
 exports.app = () => app
