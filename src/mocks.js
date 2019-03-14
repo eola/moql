@@ -39,7 +39,7 @@ let mocks = {}
 //   mocks("query", "variables") // specific mock for the query and variables
 //
 exports.mocks = function(query, variables) {
-  const q = normalizeQuery(query)
+  const q = normalizeQuery(query || '')
   const v = normalizeVariables(variables)
 
   let mock = mocks
@@ -59,35 +59,38 @@ exports.setMock = function(query, variables) {
   const v = normalizeVariables(variables)
 
   return function(mock) {
+    // Shallow clone
+    const _mock = Object.assign({}, mock)
     // Set up count & countUsed for simpler comparisons later
-    mock.countUsed = 0
+    _mock.countUsed = 0
     // A missing `count` key defualts to 1 (for "unlimited" pass `count: null`)
-    if (mock.count === undefined) mock.count = 1
+    if (_mock.count === undefined) _mock.count = 1
 
     if (!mocks[q]) mocks[q] = {} // Careful not to overwrite other mocks
     // Return informations about the mock if it's a duplicate (it's an error)
     if (mocks[q][v]) return `${query.slice(0, 30)}... ${variables}`
 
-    mocks[q][v] = mock
+    mocks[q][v] = _mock
   }
 }
 
 // Returns undefined if there were no unused mocks (good)
 // or a string of information about any mock that was unused (bad)
 exports.unusedMocks = function() {
+  let ret
   Object.keys(mocks).forEach(query => {
     Object.keys(mocks[query]).forEach(variables => {
       const mock = mocks[query][variables]
       if (mock.count !== null && mock.countUsed < mock.count) {
-        return `${query.slice(0, 30)}... ${variables}`
+        ret = `${query.slice(0, 30)}... ${variables}`
       }
     })
   })
+  return ret
 }
 
 // We need this method to mutate the reference to a new empty object
 // otherwise each file would get its own reference.
 exports.resetMocks = function() {
   mocks = {}
-  return mocks
 }

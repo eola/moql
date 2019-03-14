@@ -1,14 +1,20 @@
 {
   "name": "moql",
   "version": "1.0.0",
-  "description": "Mock GraphQL server for tests.",
+  "description": "Mock GraphQL query server for specs.",
   "main": "src/index.js",
   "repository": "https://github.com/eola/moql",
   "author": "Simon George <simon@sfcgeorge.co.uk>",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "express": "^4.16.4",
-    "body-parser": "^1.18.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }
