@@ -2,7 +2,7 @@
 
 ## moQL: Mock GraphQL query server for tests.
 
-From your Jest (or other framework) specs, easilly start a mock GraphQL server, set mock data to return, and verify it was actually requested by your GraphQL client.
+From your Jest (or other framework) specs, easilly start a mock GraphQL server, set mock data to return, and verify it was actually requested by your GraphQL client. Used and supported by [eola](https://compass.eola.co).
 
 ### Motivations
 
