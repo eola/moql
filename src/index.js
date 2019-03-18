@@ -18,7 +18,7 @@ exports.startMoQL = () =>
         return
       }
       resolve()
-      console.log(`📉 moQL server is listening on ${port}`)
+      console.log(`📉 moQL server is listening on ${port}.`)
     })
   })
 
