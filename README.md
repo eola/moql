@@ -1,4 +1,6 @@
-![moQL logo](./moQL.png)
+<img src="./moQL.png" alt="moQL logo" width="256"/>
+
+[![moql npm version](https://img.shields.io/npm/v/moql.svg)](https://www.npmjs.com/package/moql)
 
 ## moQL: Mock GraphQL query server for tests.
 
