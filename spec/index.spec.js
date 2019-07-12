@@ -4,7 +4,7 @@ const { startMoQL, stopMoQL, moQL, resetMoQL, verifyMoQL } = index
 
 jest.mock('../src/mocks.js', () => {
   return {
-    ...(jest.requireActual('../src/mocks.js')),
+    ...jest.requireActual('../src/mocks.js'),
     resetMocks: jest.fn() // already tested
   }
 })

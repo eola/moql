@@ -5,9 +5,10 @@
 //   * Remove optional syntax (e.g. commas in args split over multiple lines)
 //   * Remove fields clients might add (e.g. __typename)
 exports.normalizeQuery = function(query) {
-  return query.replace(/\s+/g, '')        // ignore all whitespace
-              .replace(/__typename/g, '') // ignore __typename field
-              .replace(/,/g, '')          // ignore argument commas (optional)
+  return query
+    .replace(/\s+/g, '') // ignore all whitespace
+    .replace(/__typename/g, '') // ignore __typename field
+    .replace(/,/g, '') // ignore argument commas (optional)
 }
 
 // Normalize vars when mocking & when recieving the request to compare equal.
@@ -20,6 +21,8 @@ exports.normalizeVariables = function(variables) {
   if (variables === undefined || variables === null) return null
 
   const ordered = {}
-  Object.keys(variables).sort().forEach(key => ordered[key] = variables[key])
+  Object.keys(variables)
+    .sort()
+    .forEach(key => (ordered[key] = variables[key]))
   return JSON.stringify(ordered)
 }

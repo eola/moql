@@ -11,9 +11,9 @@ const port = 7332 // LEE2
 //
 exports.startMoQL = () =>
   new Promise((resolve, reject) => {
-    server = app().listen(port, (err) => {
+    server = app().listen(port, err => {
       if (err) {
-        console.log("📈 moQL server failed to start.", err)
+        console.log('📈 moQL server failed to start.', err)
         reject()
         return
       }
