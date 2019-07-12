@@ -1,4 +1,4 @@
-<img src="./moQL.png" alt="moQL logo" width="512"/>
+<img src="./moQL.svg" alt="moQL logo" width="512"/>
 
 [![moql npm version](https://img.shields.io/npm/v/moql.svg)](https://www.npmjs.com/package/moql)
 
@@ -14,7 +14,7 @@ Many answers to how to testing apps that use a GraphQL API (React or otherwise) 
 
 #### Framework agnostic
 
- MoQL should work nicely with any frontend framework, GraphQL client, and test setup. It's just a bunch of methods in a module that you can call from wherever. We're using moQL with React, Apollo, Enzyme JSDOM and Jest.
+MoQL should work nicely with any frontend framework, GraphQL client, and test setup. It's just a bunch of methods in a module that you can call from wherever. We're using moQL with React, Apollo, Enzyme JSDOM and Jest.
 
 #### Fast
 

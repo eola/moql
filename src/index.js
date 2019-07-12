@@ -1,4 +1,4 @@
-const { mocks, setMock, unusedMocks, resetMocks } = require('./mocks')
+const { setMock, unusedMocks, resetMocks } = require('./mocks')
 let { app } = require('./app')
 
 let server
