@@ -9,12 +9,12 @@ const defaultPort = 7332 // LEE2
 //
 //   beforeAll(startMoQL)
 //
-exports.startMoQL = port =>
+exports.startMoQL = ({ port } = {}) =>
   new Promise((resolve, reject) => {
     const p = port || defaultPort
     server = app().listen(p, err => {
       if (err) {
-        console.log('📈 moQL server failed to start on ${p}.', err)
+        console.log(`📈 moQL server failed to start on ${p}.`, err)
         reject()
         return
       }

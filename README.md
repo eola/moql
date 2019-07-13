@@ -107,7 +107,7 @@ This method is asynchronous so you need to wait for it to finish starting before
 // Run before suite or test group
 startMoQL()
 // Start moQL server on a custom port if necessary
-startMoQL(7332)
+startMoQL({ port: 7332 })
 ```
 
 #### stopMoQL
