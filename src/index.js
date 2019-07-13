@@ -2,23 +2,24 @@ const { setMock, unusedMocks, resetMocks } = require('./mocks')
 let { app } = require('./app')
 
 let server
-const port = 7332 // LEE2
+const defaultPort = 7332 // LEE2
 
 // Start the MoQL server, and return a Promise so you can wait on it.
 // E.g. in JEST beforeAll will wait:
 //
 //   beforeAll(startMoQL)
 //
-exports.startMoQL = () =>
+exports.startMoQL = port =>
   new Promise((resolve, reject) => {
-    server = app().listen(port, err => {
+    const p = port || defaultPort
+    server = app().listen(p, err => {
       if (err) {
-        console.log('📈 moQL server failed to start.', err)
+        console.log('📈 moQL server failed to start on ${p}.', err)
         reject()
         return
       }
       resolve()
-      console.log(`📉 moQL server is listening on ${port}.`)
+      console.log(`📉 moQL server is listening on ${p}.`)
     })
   })
 
