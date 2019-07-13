@@ -4,7 +4,7 @@
 
 ## moQL: Mock GraphQL query server for tests.
 
-From your Jest (or other framework) specs, easilly start a mock GraphQL server, set mock data to return, and verify it was actually requested by your GraphQL client (framework agnostic).
+From your Jest (or other framework) specs, easilly start a mock GraphQL server, set mock data to return, and verify it was actually requested by your GraphQL client (framework agnostic). Used and supported by [eola](https://compass.eola.co).
 
 It lets you write proper integration tests without running your backend server, but also without mocking out all of your GraphQL code. Real GraphQL, real network requests, reliable testing.
 
@@ -159,7 +159,7 @@ If an unexpected query was made, it'll tell you. If you expected a query to be m
 
 ### Development
 
-There's not much code, and it doesn't do anything fancy. The only dependency is Express, and it's used lightly. Test coverage is good, and we've battle tested moQL in production at [eola](https://eola.co).
+There's not much code, and it doesn't do anything fancy. The only dependency is Express, and it's used lightly. Test coverage is good, and we've battle tested moQL in production at [eola](https://compass.eola.co).
 
 Issues and PRs welcome. Please run ESlint, Prettier and Jest if you can :)
 
