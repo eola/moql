@@ -3,6 +3,7 @@ const { mocks, setMock, unusedMocks, resetMocks } = require('../src/mocks')
 const query = '{queryFoo{}}'
 const vars = { a: 2 }
 const mock = { data: { foo: 'bar' } }
+const arrayMock = [{ data: { foo: 'bar' } }, { data: { baz: 'qux' } }]
 
 describe('mocks', () => {
   it('returns an empty object at first', () => {
@@ -56,6 +57,18 @@ describe('setMock / mocks', () => {
     setMock(query, vars)(mock)
 
     expect(mocks(query, vars).count).toBe(1)
+  })
+
+  it('initializes data to mocks array if array', () => {
+    setMock(query, vars)(arrayMock)
+
+    expect(mocks(query, vars).data).toEqual(arrayMock)
+  })
+
+  it('initializes count to data.length if array', () => {
+    setMock(query, vars)(arrayMock)
+
+    expect(mocks(query, vars).count).toBe(2)
   })
 
   it('leaves count alone if set', () => {

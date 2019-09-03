@@ -59,8 +59,10 @@ exports.setMock = function(query, variables) {
   const v = normalizeVariables(variables)
 
   return function(mock) {
-    // Shallow clone
-    const _mock = Object.assign({}, mock)
+    // Sequential mock responses / single mock
+    const _mock = Array.isArray(mock)
+      ? { data: mock, count: mock.length }
+      : Object.assign({}, mock)
     // Set up count & countUsed for simpler comparisons later
     _mock.countUsed = 0
     // A missing `count` key defualts to 1 (for "unlimited" pass `count: null`)

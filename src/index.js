@@ -8,19 +8,21 @@ const defaultPort = 7332 // LEE2
 // E.g. in JEST beforeAll will wait:
 //
 //   beforeAll(startMoQL)
+//   beforeAll(() => startMoQL({ port: 7332 })) // custom port
 //
 exports.startMoQL = ({ port } = {}) =>
   new Promise((resolve, reject) => {
     const p = port || defaultPort
-    server = app().listen(p, err => {
-      if (err) {
-        console.log(`📈 moQL server failed to start on ${p}.`, err)
+    const s = app()
+      .listen(p, () => {
+        server = s // only set global if it actually started
+        console.log(`📉 moQL server is listening on ${p}.`)
+        resolve()
+      })
+      .on('error', err => {
+        console.log(`📈 moQL server failed to start on ${p}.`, err.message)
         reject()
-        return
-      }
-      resolve()
-      console.log(`📉 moQL server is listening on ${p}.`)
-    })
+      })
   })
 
 // ✨ The main function. Register a mocked GraphQL query with MoQL.
@@ -36,7 +38,8 @@ exports.startMoQL = ({ port } = {}) =>
 exports.moQL = ({ request, response }) => {
   let { query, variables } = request
   if (variables === undefined) variables = {} // strict by default
-  if (!query) throw 'moQL missing query!'
+  if (!query) throw '👻 moQL missing query!'
+  if (query === '{}') throw '🕳 moQL empty query!'
 
   const duplicate = setMock(query, variables)(response)
   if (duplicate) throw `🙅🙅 Duplicate moQL query! '${duplicate}'`

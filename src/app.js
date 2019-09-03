@@ -18,35 +18,47 @@ app.use(bodyParser.json())
 
 // Look up and return the matching query + variables mock.
 app.post('/graphql', (request, response) => {
-  let { query, variables } = request.body
+  const batchedQuery = Array.isArray(request.body)
+  const queries = batchedQuery ? request.body : [request.body]
+  let json = []
 
-  const mockVariables = mocks(query)
-  const mock = mockVariables ? mocks(query, variables) : undefined
+  queries.forEach(({ query, variables }) => {
+    const mockVariables = mocks(query)
+    const mock = mockVariables ? mocks(query, variables) : undefined
 
-  let json
-  if (!mockVariables) {
-    const message = `🔎 No moQL query mocks found! '${query.slice(0, 30)}...'`
-    console.log(message)
-    console.log('Queries mocked:')
-    console.log(Object.keys(mocks()).join('\n\n'))
-    json = { errors: [{ message }] }
-  } else if (!mock) {
-    const message = `🤔 No moQL variables mock found! '${JSON.stringify(
-      variables
-    )}'`
-    console.log(message)
-    console.log('Query variables mocked:')
-    console.log(Object.keys(mockVariables).join('\n\n'))
-    json = { errors: [{ message }] }
-  } else if (mock.count !== null && mock.countUsed >= mock.count) {
-    const message = `🔞 moQL query limit reached! Specified count: ${mock.count}`
-    console.log(message)
-    json = { errors: [{ message }] }
-  } else {
-    mock.countUsed += 1
-    json = { data: mock.data }
-  }
-  response.send(json)
+    if (!query || query === '' || query === '{}') {
+      const message = `👻 No query specified in request to moQL!`
+      console.log(message)
+      json.push({ errors: [{ message }] })
+    } else if (!mockVariables) {
+      const message = `🔎 No moQL query mocks found! '${query.slice(0, 30)}...'`
+      console.log(message)
+      console.log('Queries mocked:')
+      console.log(Object.keys(mocks()).join('\n\n'))
+      json.push({ errors: [{ message }] })
+    } else if (!mock) {
+      const message = `🤔 No moQL variables mock found! '${JSON.stringify(
+        variables
+      )}'`
+      console.log(message)
+      console.log('Query variables mocked:')
+      console.log(Object.keys(mockVariables).join('\n\n'))
+      json.push({ errors: [{ message }] })
+    } else if (mock.count !== null && mock.countUsed >= mock.count) {
+      const message = `🔞 moQL query limit reached! Specified count: ${mock.count}`
+      console.log(message)
+      json.push({ errors: [{ message }] })
+    } else {
+      json.push(
+        Array.isArray(mock.data)
+          ? mock.data[mock.countUsed]
+          : { data: mock.data }
+      )
+      mock.countUsed += 1
+    }
+  })
+
+  response.send(batchedQuery ? json : json[0])
 })
 
 exports.app = () => app
