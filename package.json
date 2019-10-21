@@ -9,12 +9,12 @@
   "private": false,
   "dependencies": {
     "body-parser": "^1.18.3",
-    "eslint": "^6.0.1",
+    "eslint": "^6.5.1",
     "express": "^4.16.4"
   },
   "devDependencies": {
     "axios": "^0.19.0",
-    "jest": "^24.5.0",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2"
   },
   "scripts": {
