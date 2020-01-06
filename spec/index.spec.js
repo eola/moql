@@ -8,18 +8,30 @@ describe('startMoQL', () => {
   it('starts the server', async () => {
     jest.spyOn(global.console, 'log')
 
-    await startMoQL()
+    const actualPort = await startMoQL()
 
-    expect(console.log).toBeCalledWith(`📉 moQL server is listening on 7332.`)
     stopMoQL()
+    expect(console.log).toBeCalledWith(
+      `📉 moQL server is listening on ${actualPort}.`
+    )
   })
 
   it('complains if you try to start the server twice', () => {
     jest.spyOn(global.console, 'log')
 
-    const promises = Promise.all([startMoQL(), startMoQL()])
+    const promises = Promise.all([
+      startMoQL({ port: 7332 }),
+      startMoQL({ port: 7332 })
+    ])
 
-    return promises.catch(() => expect(true).toEqual(true)).finally(stopMoQL)
+    return promises
+      .catch(() => {
+        expect(console.log).toBeCalledWith(
+          '📈 moQL server failed to start on 7332.',
+          'listen EADDRINUSE: address already in use :::7332'
+        )
+      })
+      .finally(stopMoQL)
   })
 })
 

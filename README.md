@@ -22,7 +22,7 @@ import Yard, {
   PEOPLE_QUERY // In this case a "graphql-tag" `gql` query
 } from '../src/Kelis/Yard'
 
-beforeAll(startMoQL) // Automatically waits until server is started
+beforeAll(startMoQL({ port: 7332 })) // Automatically waits until server is started
 afterEach(verifyMoQL) // Optional check that all mocks were used
 afterAll(stopMoQL)
 
@@ -99,12 +99,12 @@ moQL({
 
 #### startMoQL
 
-Start the moQL server, by default on: `http://localhost:7332/graphql`
+Start the moQL server, by default on `http://localhost:PORT/graphql` where PORT is a dynamically chosen free port. The `startMoQL` function returns the port it started on.
 
 This method is asynchronous so you need to wait for it to finish starting before you can run tests; JEST's `beforeAll` automatically waits. The same server instance can be used for all moQL specs so you only need to start it once for performance.
 
 ```js
-// Run before suite or test group
+// start moQL on a free port
 startMoQL()
 // Start moQL server on a custom port if necessary
 startMoQL({ port: 7332 })
@@ -112,10 +112,10 @@ startMoQL({ port: 7332 })
 
 #### stopMoQL
 
-Stop the moQL server.
+Stop the moQL server. Run this after your tests.
 
 ```js
-// Run after suite or test group
+// Stop the server, whichever port it started on.
 stopMoQL()
 ```
 
