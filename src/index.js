@@ -16,12 +16,10 @@ exports.startMoQL = ({ port } = {}) =>
     const s = app()
       .listen(p, () => {
         server = s // only set global if it actually started
-        const actualPort = s.address().port
-        console.log(`📉 moQL server is listening on ${actualPort}.`)
-        resolve(actualPort)
+        resolve(s.address().port)
       })
       .on('error', err => {
-        console.log(`📈 moQL server failed to start on ${p}.`, err.message)
+        console.error(`📈 moQL server failed to start on ${p}.`, err.message)
         reject()
       })
   })
@@ -59,10 +57,10 @@ exports.resetMoQL = () => resetMocks()
 //   verifyMoQL.length === 0 // pass
 //
 // Changed my mind it throws now.
-exports.verifyMoQL = () => {
+exports.verifyMoQL = ({ reset } = { reset: true }) => {
   const unused = unusedMocks()
   if (unused) throw `😰 MoQL query not used! '${unused}'`
-  exports.resetMoQL() // to be helpful
+  if (reset) exports.resetMoQL() // to be helpful, unless you don't want that
 }
 
 // Stop the MoQL server. Not sure if this is necessary.

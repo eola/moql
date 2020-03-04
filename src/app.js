@@ -28,11 +28,11 @@ app.post('/graphql', (request, response) => {
 
     if (!query || query === '' || query === '{}') {
       const message = `👻 No query specified in request to moQL!`
-      console.log(message)
+      console.warn(message)
       json.push({ errors: [{ message }] })
     } else if (!mockVariables) {
-      const message = `🔎 No moQL query mocks found! '${query.slice(0, 30)}...'`
-      console.log(message)
+      const message = `🔎 No moQL query mocks found! '${query}...'`
+      console.warn(message)
       console.log('Queries mocked:')
       console.log(Object.keys(mocks()).join('\n\n'))
       json.push({ errors: [{ message }] })
@@ -40,13 +40,13 @@ app.post('/graphql', (request, response) => {
       const message = `🤔 No moQL variables mock found! '${JSON.stringify(
         variables
       )}'`
-      console.log(message)
+      console.warn(message)
       console.log('Query variables mocked:')
       console.log(Object.keys(mockVariables).join('\n\n'))
       json.push({ errors: [{ message }] })
     } else if (mock.count !== null && mock.countUsed >= mock.count) {
       const message = `🔞 moQL query limit reached! Specified count: ${mock.count}`
-      console.log(message)
+      console.warn(message)
       json.push({ errors: [{ message }] })
     } else {
       json.push(
