@@ -31,7 +31,7 @@ app.post('/graphql', (request, response) => {
       console.warn(message)
       json.push({ errors: [{ message }] })
     } else if (!mockVariables) {
-      const message = `🔎 No moQL query mocks found! '${query}...'`
+      const message = `🔎 No moQL query mocks found! '${query}'`
       console.warn(message)
       console.log('Queries mocked:')
       console.log(Object.keys(mocks()).join('\n\n'))
