@@ -64,4 +64,7 @@ exports.verifyMoQL = ({ reset } = { reset: true }) => {
 }
 
 // Stop the MoQL server. Not sure if this is necessary.
-exports.stopMoQL = () => server.close()
+exports.stopMoQL = () =>
+  new Promise(resolve => {
+    server.close(() => resolve())
+  })
