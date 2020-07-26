@@ -10,7 +10,7 @@ It lets you write proper integration tests without running your backend server, 
 
 ### Example
 
-Using JEST and Enzyme JSDOM to test a React component, but can be adapted to any test setup and frmaework as moQL doesn't depend on anything — it just provides some methods and an HTTP server.
+Using JEST and Enzyme JSDOM to test a React component, but can be adapted to any test setup and framework as moQL doesn't depend on anything — it just provides some methods and an HTTP server.
 
 ```js
 import { moQL, startMoQL, stopMoQL, verifyMoQL } from 'moql'
